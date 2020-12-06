@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         else {
-            mainListView.setItemViewCacheSize(20);
+            mainListView.setItemViewCacheSize(300);
             mainListView.setDrawingCacheEnabled(true);
             mainListView.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
             adapter.setSongs(songsList);

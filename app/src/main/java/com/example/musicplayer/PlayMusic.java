@@ -140,9 +140,6 @@ public class PlayMusic extends AppCompatActivity {
 
 
 
-//      Thread for progressbar of music
-//        parallelTasks(start);
-
 
         setImage(songImage, songs.get(currentlyPlaying).getSongImage());
 
@@ -203,12 +200,14 @@ public class PlayMusic extends AppCompatActivity {
         startTime.setText("00:00");
         long time = Integer.valueOf(song.getSongDur());
         int minute = (int) time / 60000;
-        String durations = String.format("%02d:%02d", minute, (minute*60)%60);
+        String durations = String.format("%02d:%02d", minute, (time/1000)%60);
         duration.setText(durations);
         playBtn.setBackground(getDrawable(R.drawable.ic_pause_btn));
 
         startService(musicService2);
         second = 0;
+
+        seconds = (time/1000);
         running = true;
 
     }
@@ -238,7 +237,7 @@ public class PlayMusic extends AppCompatActivity {
         startTime.setText("00:00");
         long time = Integer.valueOf(song.getSongDur());
         int minute = (int) time / 60000;
-        String durations = String.format("%02d:%02d", minute, (minute*60)%60);
+        String durations = String.format("%02d:%02d", minute, (time/1000)%60);
         duration.setText(durations);
 
 
@@ -246,6 +245,7 @@ public class PlayMusic extends AppCompatActivity {
         startService(musicService2);
         running = true;
         second = 0;
+        seconds = (time/1000);
 
     }
 
