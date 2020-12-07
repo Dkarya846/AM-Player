@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.musicplayer">
+    package="com.aryafacilities.amplayer">
 
     <application
         android:allowBackup="true"
@@ -10,8 +10,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MaterialComponents">
-        <activity android:name=".PlayMusic" android:screenOrientation="portrait"></activity>
-        <activity android:name=".MainActivity"
+        <activity android:name="com.aryafacilities.amplayer.PlayMusic" android:screenOrientation="portrait"></activity>
+        <activity android:name="com.aryafacilities.amplayer.MainActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -19,7 +19,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <service android:name=".MusicService"/>
+        <service android:name="com.aryafacilities.amplayer.MusicService"/>
     </application>
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
