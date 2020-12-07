@@ -24,11 +24,12 @@
             android:layout_marginTop="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
-        <ImageView
-            android:id="@+id/songImage"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:src="@drawable/ic_launcher_background" />
+
+            <ImageView
+                android:id="@+id/songImage"
+                android:layout_width="150dp"
+                android:layout_height="149dp"
+                android:src="@drawable/albumart" />
         </com.google.android.material.card.MaterialCardView>
         <TextView
             android:id="@+id/artistName"

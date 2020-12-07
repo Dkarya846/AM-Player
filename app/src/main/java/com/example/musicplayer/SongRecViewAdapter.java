@@ -55,6 +55,9 @@ public class SongRecViewAdapter extends RecyclerView.Adapter<SongRecViewAdapter.
             Drawable image = new BitmapDrawable(BitmapFactory.decodeByteArray(data, 0, data.length));
             holder.songImage.setImageDrawable(image);
         }
+        else{
+            holder.songImage.setImageDrawable(context.getDrawable(R.drawable.albumart));
+        }
         holder.parent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

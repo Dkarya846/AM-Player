@@ -269,6 +269,10 @@ public class PlayMusic extends AppCompatActivity {
             Drawable image = new BitmapDrawable(BitmapFactory.decodeByteArray(data, 0, data.length));
             imageView.setImageDrawable(image);
         }
+        else
+        {
+            imageView.setImageDrawable(getDrawable(R.drawable.albumart));
+        }
     }
 
     private void setColorTheme(int colorID){
