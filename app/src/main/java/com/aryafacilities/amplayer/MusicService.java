@@ -6,6 +6,7 @@ import android.app.Service;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Build;
@@ -38,12 +39,17 @@ public class MusicService extends Service {
         mediaPlayer = MediaPlayer.create(this, song);
         mediaPlayer.start();
 
+
+        mediaPlayer.getTrackInfo();
+
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
-            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, CHANNEL_NAME, NotificationManager.IMPORTANCE_NONE);
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, CHANNEL_NAME, NotificationManager.IMPORTANCE_LOW);
             channel.setDescription(CHANNEL_DESC);
 
+            channel.setSound(null, null);
             NotificationManager manager = getSystemService(NotificationManager.class);
             manager.createNotificationChannel(channel);
+
         }
 
         displayNotification();
@@ -89,8 +95,9 @@ public class MusicService extends Service {
                 .setLargeIcon(icon)
                 .setSmallIcon(R.drawable.ic_play_btn)
                 .setContentText(name +" is playing in background")
-                .setPriority(NotificationCompat.PRIORITY_LOW);
-
+                .setPriority(NotificationCompat.PRIORITY_MIN);
+        nBuilder.setDefaults(0)
+        .setSound(null, AudioManager.STREAM_NOTIFICATION);
         NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(this);
         notificationManagerCompat.notify(1, nBuilder.build());
     }

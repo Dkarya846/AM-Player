@@ -184,11 +184,10 @@ public class PlayMusic extends AppCompatActivity {
         String durations = String.format("%02d:%02d", minute, (time/1000)%60);
         duration.setText(durations);
         playBtn.setBackground(getDrawable(R.drawable.ic_pause_btn));
-
+        seconds = (time/1000);
+        progressBar.setMax((int)seconds);
         startService(musicService2);
         second = 0;
-
-        seconds = (time/1000);
         running = true;
 
     }
@@ -287,6 +286,11 @@ public class PlayMusic extends AppCompatActivity {
                     if(second < seconds){
                         second++;
                         progressBar.setProgress( (int)second );
+                    }
+                    else if(second == seconds){
+                        second = 0;
+
+                        playNext();
                     }
                     else{
                         running = false;
