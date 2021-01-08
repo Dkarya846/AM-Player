@@ -34,14 +34,11 @@ public class MainActivity extends AppCompatActivity {
 
         if (!(ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE)== PackageManager.PERMISSION_GRANTED)){
             ActivityCompat.requestPermissions(MainActivity.this, new String[] {Manifest.permission.READ_EXTERNAL_STORAGE}, STORAGE_PERMISSION_CODE);
-        }
-        else{
             TextView textView = findViewById(R.id.emptyList);
             textView.setText("Permission not granted to the app. \n \uD83D\uDE14");
             textView.setVisibility(View.VISIBLE);
             mainListView.setVisibility(View.GONE);
         }
-
 
         String[] projection = {MediaStore.Audio.Media._ID, MediaStore.Audio.Media.DATA, MediaStore.Audio.Media.ARTIST, MediaStore.Audio.Media.TITLE, MediaStore.Audio.Media.DURATION};
         Cursor audioCursor = getContentResolver().query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, projection, null, null, null);
@@ -63,22 +60,22 @@ public class MainActivity extends AppCompatActivity {
         }
         SongRecViewAdapter adapter = new SongRecViewAdapter(this);
 
-        if(mainListView.getChildCount() == 0){
-                TextView textView = findViewById(R.id.emptyList);
-                textView.setText("No songs are available \n \uD83D\uDE14");
-                textView.setVisibility(View.VISIBLE);
-                mainListView.setVisibility(View.GONE);
-        }
-
-        else {
-            mainListView.setItemViewCacheSize(300);
-            mainListView.setDrawingCacheEnabled(true);
-            mainListView.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
-            adapter.setSongs(songsList);
-            mainListView.setAdapter(adapter);
-            mainListView.setNestedScrollingEnabled(false);
-            mainListView.setLayoutManager(new GridLayoutManager(this, 2));
-        }
+//        if(mainListView.getChildCount() == 0){
+//                TextView textView = findViewById(R.id.emptyList);
+//                textView.setText("No songs are available \n \uD83D\uDE14");
+//                textView.setVisibility(View.VISIBLE);
+//                mainListView.setVisibility(View.GONE);
+//        }
+//
+//        else {
+        mainListView.setItemViewCacheSize(300);
+        mainListView.setDrawingCacheEnabled(true);
+        mainListView.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
+        adapter.setSongs(songsList);
+        mainListView.setAdapter(adapter);
+        mainListView.setNestedScrollingEnabled(false);
+        mainListView.setLayoutManager(new GridLayoutManager(this, 2));
+//        }
     }
 
     private void requestStoragePermission(){
