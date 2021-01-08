@@ -189,7 +189,6 @@ public class PlayMusic extends AppCompatActivity {
         startService(musicService2);
         second = 0;
         running = true;
-
     }
 
     private void playPrev(){
