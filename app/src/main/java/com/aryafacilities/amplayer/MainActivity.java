@@ -34,48 +34,14 @@ public class MainActivity extends AppCompatActivity {
 
         if (!(ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE)== PackageManager.PERMISSION_GRANTED)){
             ActivityCompat.requestPermissions(MainActivity.this, new String[] {Manifest.permission.READ_EXTERNAL_STORAGE}, STORAGE_PERMISSION_CODE);
-            TextView textView = findViewById(R.id.emptyList);
-            textView.setText("Permission not granted to the app. \n \uD83D\uDE14");
-            textView.setVisibility(View.VISIBLE);
-            mainListView.setVisibility(View.GONE);
         }
 
-        String[] projection = {MediaStore.Audio.Media._ID, MediaStore.Audio.Media.DATA, MediaStore.Audio.Media.ARTIST, MediaStore.Audio.Media.TITLE, MediaStore.Audio.Media.DURATION};
-        Cursor audioCursor = getContentResolver().query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, projection, null, null, null);
-
-        if (audioCursor!=null) {
-            if (audioCursor.moveToFirst()) {
-                do {
-                    int dataIndex = audioCursor.getColumnIndex(MediaStore.Audio.Media.DATA);
-                    int artistIndex = audioCursor.getColumnIndex(MediaStore.Audio.Media.ARTIST);
-                    int titleIndex = audioCursor.getColumnIndex(MediaStore.Audio.Media.TITLE);
-                    int durationIndex = audioCursor.getColumnIndex(MediaStore.Audio.Media.DURATION);
-
-                    songsList.add(new Songs(audioCursor.getString(titleIndex),
-                            audioCursor.getString(artistIndex),
-                            audioCursor.getString(dataIndex),
-                            audioCursor.getString(durationIndex)));
-                } while (audioCursor.moveToNext());
-            }
+        if ((ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE)== PackageManager.PERMISSION_GRANTED)){
+            loadSongs();
         }
-        SongRecViewAdapter adapter = new SongRecViewAdapter(this);
 
-//        if(mainListView.getChildCount() == 0){
-//                TextView textView = findViewById(R.id.emptyList);
-//                textView.setText("No songs are available \n \uD83D\uDE14");
-//                textView.setVisibility(View.VISIBLE);
-//                mainListView.setVisibility(View.GONE);
-//        }
-//
-//        else {
-        mainListView.setItemViewCacheSize(300);
-        mainListView.setDrawingCacheEnabled(true);
-        mainListView.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
-        adapter.setSongs(songsList);
-        mainListView.setAdapter(adapter);
-        mainListView.setNestedScrollingEnabled(false);
-        mainListView.setLayoutManager(new GridLayoutManager(this, 2));
-//        }
+
+
     }
 
     private void requestStoragePermission(){
@@ -105,10 +71,59 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if (requestCode == STORAGE_PERMISSION_CODE){
-            if (grantResults.length>0 && grantResults[0]== PackageManager.PERMISSION_GRANTED)
+            if (grantResults.length>0 && grantResults[0]== PackageManager.PERMISSION_GRANTED) {
                 Toast.makeText(this, "Permission Granted", Toast.LENGTH_SHORT).show();
-            else
+                loadSongs();
+            }
+            else {
+                TextView textView = findViewById(R.id.emptyList);
+                textView.setText("No Permission Granted \n \uD83D\uDE14");
+                textView.setVisibility(View.VISIBLE);
+                mainListView.setVisibility(View.GONE);
                 Toast.makeText(this, "Permission not Granted", Toast.LENGTH_SHORT).show();
+            }
         }
+    }
+    private void loadSongs()
+    {
+        String[] projection = {MediaStore.Audio.Media._ID, MediaStore.Audio.Media.DATA, MediaStore.Audio.Media.ARTIST, MediaStore.Audio.Media.TITLE, MediaStore.Audio.Media.DURATION};
+        Cursor audioCursor = getContentResolver().query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, projection, null, null, null);
+
+        if (audioCursor!=null) {
+            if (audioCursor.moveToFirst()) {
+                do {
+                    int dataIndex = audioCursor.getColumnIndex(MediaStore.Audio.Media.DATA);
+                    int artistIndex = audioCursor.getColumnIndex(MediaStore.Audio.Media.ARTIST);
+                    int titleIndex = audioCursor.getColumnIndex(MediaStore.Audio.Media.TITLE);
+                    int durationIndex = audioCursor.getColumnIndex(MediaStore.Audio.Media.DURATION);
+
+                    songsList.add(new Songs(audioCursor.getString(titleIndex),
+                            audioCursor.getString(artistIndex),
+                            audioCursor.getString(dataIndex),
+                            audioCursor.getString(durationIndex)));
+                } while (audioCursor.moveToNext());
+            }
+        }
+        SongRecViewAdapter adapter = new SongRecViewAdapter(this);
+
+
+        mainListView.setItemViewCacheSize(368);
+        mainListView.setDrawingCacheEnabled(true);
+        mainListView.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
+        adapter.setSongs(songsList);
+
+        if(adapter.getItemCount() == 0){
+            TextView textView = findViewById(R.id.emptyList);
+            textView.setText("No songs are available \n \uD83D\uDE14");
+            textView.setVisibility(View.VISIBLE);
+            mainListView.setVisibility(View.GONE);
+        }
+        else {
+            mainListView.setAdapter(adapter);
+            mainListView.setNestedScrollingEnabled(false);
+            mainListView.setLayoutManager(new GridLayoutManager(this, 2));
+            Toast.makeText(this, String.valueOf(adapter.getItemCount()), Toast.LENGTH_SHORT).show();
+        }
+
     }
 }
